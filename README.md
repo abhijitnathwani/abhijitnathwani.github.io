@@ -1,1 +1,1 @@
-# [`brijeshrakholia.me`](http://brijeshrakholia.me) Website Sources
+Personal website resources.
