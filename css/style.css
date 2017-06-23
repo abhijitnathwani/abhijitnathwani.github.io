@@ -66,7 +66,6 @@ p {
   white-space: nowrap; /* Keeps the content on a single line */
   margin: 0 auto; /* Gives that scrolling effect as the typing happens */
   letter-spacing: 2px; /* Adjust as needed */
-  display: inline;
   animation: 
     typing 4s steps(30, end),
     blink-caret .75s step-end infinite;
@@ -82,8 +81,4 @@ p {
 @-webkit-keyframes blink-caret {
   from, to { border-color: transparent }
   50% { border-color: orange; }
-}
-
-.typewriter {
-  text-align: center;
 }
