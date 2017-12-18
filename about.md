@@ -4,12 +4,13 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+Hi! I'm Abhijit Nathwani. An engineer, and a technology enthusiast.
 
 ### More Information
 
-A place to include any other types of information that you'd like to include about yourself.
+
+I'm Abhijit Nathwani. An engineer, and a technology enthusiast, I'll try and blog about certain topics which I had difficulty in collecting the information online. The blog posts here would be curated from bits and pieces of information found on a topic from the internet, arranged and explained as needed. A believer in Open Source Community, blogs would be my way of returning to the community through posts that explain some topic. I wouldn't be restricting to technology or certain frameworks. I intend to talk about anything and everything that I learned the hard way!
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[abhijit.nathwani@gmail.com](mailto:abhijit.nathwani@gmail.com)
