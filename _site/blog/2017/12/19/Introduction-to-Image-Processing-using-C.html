@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Introduction to Image Processing using C – Abhijit Nathwani – Technology Enthusiast</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="So most of you would be aware of various Image Processing techniques, on different platforms such as MATLAB, SciLAB, etc. Here, in this series of blog posts, we are only going to focus on image processing using C language. At times, the platforms named above are not available to us, and there may be a need to process images in most basic language, such as C.
+
+" />
+    <meta property="og:description" content="So most of you would be aware of various Image Processing techniques, on different platforms such as MATLAB, SciLAB, etc. Here, in this series of blog posts, we are only going to focus on image processing using C language. At times, the platforms named above are not available to us, and there may be a need to process images in most basic language, such as C.
+
+" />
+    
+    <meta name="author" content="Abhijit Nathwani" />
+
+    
+    <meta property="og:title" content="Introduction to Image Processing using C" />
+    <meta property="twitter:title" content="Introduction to Image Processing using C" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Abhijit Nathwani - Technology Enthusiast" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://raw.githubusercontent.com/barryclark/jekyll-now/master/images/jekyll-logo.png" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Abhijit Nathwani</a></h1>
+            <p class="site-description">Technology Enthusiast</p>
+          </div>
+
+          <nav>
+	    <a href="http://localhost:4000">Home</a>
+            <a href="/blog">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Introduction to Image Processing using C</h1>
+
+  <div class="entry">
+    <p>So most of you would be aware of various Image Processing techniques, on different platforms such as MATLAB, SciLAB, etc. Here, in this series of blog posts, we are only going to focus on image processing using C language. At times, the platforms named above are not available to us, and there may be a need to process images in most basic language, such as C.</p>
+
+<h5 id="why-image-processing-in-c-">Why image processing in C ?</h5>
+
+<p>Well, recently I was assigned a task to optimize an image processing code in C, and I had no clue how to go about and what are the image processing operations to be performed on C, <em>without the use of any external libraries</em>. After a lot of digging on the internet, reading books and articles, I finally managed to do the task. Also, I realized that the resources are all available on the internet, however, <em>they lie scattered</em>. Hence, these series of blog posts have been created so that one must get most of the required information at a go, and can start with  <strong><em>Image Processing using C</em></strong> .</p>
+
+<h5 id="image-formats">Image formats</h5>
+
+<p>There are various widely available image formats such as JPEG, PNG, TIFF, BMP, etc. For ease, we would be discussing all the programs and operations around the Bitmap file format. As the BMP is less complex to understand and decode than the compressed formats such as JPEG, we would be preferring this. As we do not intend to use any library as much as possible, we will have to deal with all the image headers and the smallest byte of information through our own code, BMP comes in handy to use.</p>
+
+  </div>
+
+  <div class="date">
+    Written on December 19, 2017
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'abhijitnathwani-github-io';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+<a href="https://www.facebook.com/abhijitnathwani"><i class="svg-icon facebook"></i></a>
+
+<a href="https://github.com/abhijitnathwani"><i class="svg-icon github"></i></a>
+<a href="https://instagram.com/abhijitnathwani"><i class="svg-icon instagram"></i></a>
+<a href="https://www.linkedin.com/in/abhijitnathwani"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/abhijitnathwani"><i class="svg-icon twitter"></i></a>
+<a href="http://stackoverflow.com/users/6157456/abhijit-nathwani"><i class="svg-icon stackoverflow"></i></a>
+
+<a href="https://plus.google.com//u/0/+AbhijitNathwanii"><i class="svg-icon googleplus"></i></a>
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-111393187-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/blog/2017/12/19/Introduction-to-Image-Processing-using-C',
+		  'title': 'Introduction to Image Processing using C'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
