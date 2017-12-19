@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Introduction to Image Processing using C – Abhijit Nathwani – Technology Enthusiast</title>
+   
 
         <meta charset="utf-8" />
     <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
@@ -27,6 +28,7 @@
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+    <link rel="shortcut icon" href="img/myAvatar.png" />
     <link rel="stylesheet" type="text/css" href="/style.css" />
     <link rel="alternate" type="application/rss+xml" title="Abhijit Nathwani - Technology Enthusiast" href="/feed.xml" />
 
@@ -45,7 +47,7 @@
           </div>
 
           <nav>
-	    <a href="http://localhost:4000">Home</a>
+	    <a href="http://0.0.0.0:4000">Home</a>
             <a href="/blog">Blog</a>
             <a href="/about">About</a>
           </nav>
@@ -66,7 +68,127 @@
 
 <h5 id="image-formats">Image formats</h5>
 
-<p>There are various widely available image formats such as JPEG, PNG, TIFF, BMP, etc. For ease, we would be discussing all the programs and operations around the Bitmap file format. As the BMP is less complex to understand and decode than the compressed formats such as JPEG, we would be preferring this. As we do not intend to use any library as much as possible, we will have to deal with all the image headers and the smallest byte of information through our own code, BMP comes in handy to use.</p>
+<p>There are various widely available image formats such as JPEG, PNG, TIFF, BMP, etc. For ease, we would be discussing all the programs and operations around the <a href="https://en.wikipedia.org/wiki/BMP_file_format">Bitmap file format</a>. As the BMP is less complex to understand and decode than the compressed formats such as JPEG, we would be preferring this. As we do not intend to use any library as much as possible, we will have to deal with all the image headers and the smallest byte of information through our own code, BMP comes in handy to use.</p>
+
+<h5 id="the-bitmap-image">The Bitmap Image</h5>
+
+<p>This blog post only talks about the bare minimum information that you need in order to get started with Image Processing programs using C. So, the information provided would only as much as required to get to familiar with the environment. If you need more information, feel free to browse the internet or leave a comment below. We will discuss as required.</p>
+
+<p>Basically, any image would be structured in the following way:</p>
+
+<p><strong>image header –&gt;  color table (if any) –&gt; image data</strong></p>
+
+<p>Similarly, the BMP image is structured in the same way. It has a <strong>54 byte</strong> <em>image header</em>, <strong>1024 byte</strong> <em>colorTable</em> if present, and the rest is the image data.</p>
+
+<h4 id="the-image-header">The Image Header</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>offset</th>
+      <th style="text-align: center">size</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td style="text-align: center">2</td>
+      <td>signature, must be 4D42 hex</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td style="text-align: center">4</td>
+      <td>size of BMP file in bytes (unreliable)</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td style="text-align: center">2</td>
+      <td>reserved, must be zero</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td style="text-align: center">2</td>
+      <td>reserved, must be zero</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td style="text-align: center">4</td>
+      <td>offset to start of image data in bytes</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td style="text-align: center">4</td>
+      <td>size of BITMAPINFOHEADER structure, must be 40</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td style="text-align: center">4</td>
+      <td>image width in pixels</td>
+    </tr>
+    <tr>
+      <td>22</td>
+      <td style="text-align: center">4</td>
+      <td>image height in pixels</td>
+    </tr>
+    <tr>
+      <td>26</td>
+      <td style="text-align: center">2</td>
+      <td>number of planes in the image, must be 1</td>
+    </tr>
+    <tr>
+      <td>28</td>
+      <td style="text-align: center">2</td>
+      <td>number of bits per pixel (1, 4, ,8 or 24) (bitDepth)</td>
+    </tr>
+    <tr>
+      <td>30</td>
+      <td style="text-align: center">4</td>
+      <td>compression type (0=none, 1=RLE-8, 2=RLE-4)</td>
+    </tr>
+    <tr>
+      <td>34</td>
+      <td style="text-align: center">4</td>
+      <td>size of image data in bytes (including padding)</td>
+    </tr>
+    <tr>
+      <td>38</td>
+      <td style="text-align: center">4</td>
+      <td>horizontal resolution in pixels per meter (unreliable)</td>
+    </tr>
+    <tr>
+      <td>42</td>
+      <td style="text-align: center">4</td>
+      <td>vertical resolution in pixels per meter (unreliable)</td>
+    </tr>
+    <tr>
+      <td>46</td>
+      <td style="text-align: center">4</td>
+      <td>number of colors in image, or zero</td>
+    </tr>
+    <tr>
+      <td>50</td>
+      <td style="text-align: center">4</td>
+      <td>number of important colors, or zero</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The Bitmap Image Header (<a href="http://www.fastgraph.com/help/bmp_header_format.html">source</a>)</p>
+
+<p>From the above header, the information really important to us are <em>width, height and bitDepth</em>.</p>
+
+<p>Next, if the <strong>bitDepth</strong> is &lt;= 8, the BMP image would contain the <strong>colorTable</strong>. ColorTable is, as per <a href="https://en.wikipedia.org/wiki/BMP_file_format#Color_table">Wikipedia:</a></p>
+
+<blockquote>
+  <p>The color table is a block of bytes (a table) listing the colors used by the image. Each pixel in an indexed color image is described by a number of bits (1, 4, or 8) which is an index of a single color described by this table. The purpose of the color palette in indexed color bitmaps is to inform the application about the actual color that each of these index values corresponds to. The purpose of the color table in non-indexed (non-palettized) bitmaps is to list the colors used by the bitmap for the purposes of optimization on devices with limited color display capability and to facilitate future conversion to different pixel formats and paletization.</p>
+</blockquote>
+
+<p>In layman terms, the colorTable helps us indentify the shade of the color based on the value. It serves as a lookup table for colors for that particular image.</p>
+
+<p>The rest of the bytes, once we’ve read <strong>54 bytes of image header</strong> and <strong>1024 bytes of colorTable</strong> is all image data, i.e. the <strong>pixel information.</strong></p>
+
+<p>This is all you need to know for now, to start processing your BMP image in C. In the <a href="/blog/2017/12/20/First-C-Program-for-Image-Processing">next post</a>, we will talk about writing your first C program that reads and makes a copy of the image.</p>
 
   </div>
 

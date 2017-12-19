@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>First C Program for Image Processing – Abhijit Nathwani – Technology Enthusiast</title>
+   
+
+        <meta charset="utf-8">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    
+    <meta name="description" content="So, now that you know the basics of Bitmap image, we can start writing our first program. This will also serve as your boiler plate program for the following tutorials. Once you’re clear with this, things should start to make sense.
+
+">
+    <meta property="og:description" content="So, now that you know the basics of Bitmap image, we can start writing our first program. This will also serve as your boiler plate program for the following tutorials. Once you’re clear with this, things should start to make sense.
+
+">
+    
+    <meta name="author" content="Abhijit Nathwani">
+
+    
+    <meta property="og:title" content="First C Program for Image Processing">
+    <meta property="twitter:title" content="First C Program for Image Processing">
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="img/myAvatar.png">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="alternate" type="application/rss+xml" title="Abhijit Nathwani - Technology Enthusiast" href="/feed.xml">
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://raw.githubusercontent.com/barryclark/jekyll-now/master/images/jekyll-logo.png"></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Abhijit Nathwani</a></h1>
+            <p class="site-description">Technology Enthusiast</p>
+          </div>
+
+          <nav>
+	    <a href="http://0.0.0.0:4000">Home</a>
+            <a href="/blog">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>First C Program for Image Processing</h1>
+
+  <div class="entry">
+    <p>So, now that you know the basics of Bitmap image, we can start writing our first program. This will also serve as your boiler plate program for the following tutorials. Once you’re clear with this, things should start to make sense.</p>
+
+<p>If you’re are reading this post directly, I insist you to read the introductory <a href="/blog/2017/12/19/Introduction-to-Image-Processing-using-C">post</a> that contains the heads up required for this blog post.</p>
+
+<p>The complete program that will be discussed here, has been updated in the <a href="https://github.com/abhijitnathwani/image-processing/">repository</a> complementing this blog posts. The code for this post is <a href="https://github.com/abhijitnathwani/image-processing/blob/master/image_copy.c">here</a>.</p>
+
+<p>So, let’s get started! <img class="emoji" title=":sunglasses:" alt=":sunglasses:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f60e.png" height="20" width="20"></p>
+
+<p>As the traditional image processing practice, we’d be performing operations on the most common images in the IP domain. For this post, we’d be using <em>lena512.bmp</em> which is a gray scale image.</p>
+
+<p><img src="/images/lena512.bmp" alt="Lena Grayscale" title="Lena Grayscale"></p>
+
+<p>The first thing to do, read the input image. While we know the different file formats and the their meanings, C understands the image as a <em>file</em> only. Everything is <em>file handling operations</em> for C. It is the responsibility of the programmer to handle the bytes of information and structure it as an image file.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">FILE</span> <span class="o">*</span><span class="n">streamIn</span><span class="p">;</span>
+<span class="n">streamIn</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="s">"/path/to/your/image.bmp"</span><span class="p">,</span><span class="s">"r"</span><span class="p">);</span> <span class="c1">// open the file
+</span></code></pre></div></div>
+<p>Now we need to read the imageHeader and colorTable. Hence we declare the variables for the same.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">header</span><span class="p">[</span><span class="mi">54</span><span class="p">];</span> <span class="c1">// to store the image header
+</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">colorTable</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span> <span class="c1">// to store the colorTable, if it exists.
+</span></code></pre></div></div>
+
+<p>Note that once we open the file using <code class="highlighter-rouge">fopen()</code>, the file pointer points to the start of the file. We know need to read <strong>54 bytes of image header</strong> from this position.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">54</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> 
+	<span class="n">header</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">getc</span><span class="p">(</span><span class="n">streamIn</span><span class="p">);</span>  <span class="c1">// strip out BMP header, byte-wise
+</span></code></pre></div></div>
+
+<p>We now have the image header information stored in the <code class="highlighter-rouge">header</code> array. As discussed, we need three important things from this header.</p>
+<ul>
+  <li>width of the image (18th byte)</li>
+  <li>height of the image (22nd byte)</li>
+  <li>bitDepth of the image (28th byte)</li>
+</ul>
+
+<p>Read these and store into different variables.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">width</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">header</span><span class="p">[</span><span class="mi">18</span><span class="p">];</span> <span class="c1">// read the width from the image header
+</span><span class="kt">int</span> <span class="n">height</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">header</span><span class="p">[</span><span class="mi">22</span><span class="p">];</span> <span class="c1">// read the height from the image header
+</span><span class="kt">int</span> <span class="n">bitDepth</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">header</span><span class="p">[</span><span class="mi">28</span><span class="p">];</span> <span class="c1">// read the bitDepth from the image header
+</span></code></pre></div></div>
+
+<p>Next, if the <strong>bitDepth</strong> is &lt;= 8, we need to read the colorTable.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="p">(</span><span class="n">bitDepth</span> <span class="o">&lt;=</span> <span class="mi">8</span><span class="p">)</span>
+	<span class="n">fread</span><span class="p">(</span><span class="n">colorTable</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">),</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">streamIn</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">fread()</code> reads 1024 bytes of data in the colorTable array.</p>
+
+<p>Now, we take another <code class="highlighter-rouge">buf[]</code> to store the image pixel information. This should be of the size <code class="highlighter-rouge">height * width</code> as the image pixels are stored in row and column format.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="n">height</span> <span class="o">*</span> <span class="n">width</span><span class="p">];</span> <span class="c1">// to store the image data
+</span>
+<span class="n">fread</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">),</span> <span class="p">(</span><span class="n">height</span> <span class="o">*</span> <span class="n">width</span><span class="p">),</span> <span class="n">streamIn</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>We now have our pixel information in <code class="highlighter-rouge">buf[]</code>. Now it’s time to copy all this to a new image.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">FILE</span> <span class="o">*</span><span class="n">fo</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="s">"/path/to/output/file.bmp"</span><span class="p">,</span><span class="s">"wb"</span><span class="p">);</span> <span class="c1">// Output File name
+</span></code></pre></div></div>
+
+<p>Write the image header first, which we have stored in the <code class="highlighter-rouge">header[]</code> array.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fwrite</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">),</span> <span class="mi">54</span><span class="p">,</span> <span class="n">fo</span><span class="p">);</span> <span class="c1">// write the image header to output file
+</span></code></pre></div></div>
+
+<p>Write the color table to the output file.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="p">(</span><span class="n">bitDepth</span> <span class="o">&lt;=</span> <span class="mi">8</span><span class="p">)</span>
+	<span class="n">fwrite</span><span class="p">(</span><span class="n">colorTable</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">),</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">fo</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Now, write the image information <code class="highlighter-rouge">buf[]</code></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fwrite</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">),</span> <span class="p">(</span><span class="n">height</span> <span class="o">*</span> <span class="n">width</span><span class="p">),</span> <span class="n">fo</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Now that everything has been read and written, it’s time to close our files.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fclose</span><span class="p">(</span><span class="n">fo</span><span class="p">);</span>
+<span class="n">fclose</span><span class="p">(</span><span class="n">streamIn</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>After compiliing, and successfully executing this program, there should be an exact same copy of the lena image at the path which you specified in the <code class="highlighter-rouge">fo</code> pointer.</p>
+
+<p>If that exists, and looks like this:</p>
+
+<p><img src="/images/lena512.bmp" alt="Lena Grayscale" title="Lena Copy"></p>
+
+<p>Voila! Your first C program to copy an image is ready, <strong>without the use of any external library</strong>. <img class="emoji" title=":beers:" alt=":beers:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f37b.png" height="20" width="20"></p>
+
+<p><strong>TODO:</strong> Now that you have successfully copied a grayscale image, try and copy a bitmap RGB image. (<em>Hint: You may want to check the bitDepth.</em>) Let me know of any problems you face in the discussions below.</p>
+
+  </div>
+
+  <div class="date">
+    Written on December 20, 2017
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'abhijitnathwani-github-io';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+</div>
+
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+<a href="https://www.facebook.com/abhijitnathwani"><i class="svg-icon facebook"></i></a>
+
+<a href="https://github.com/abhijitnathwani"><i class="svg-icon github"></i></a>
+<a href="https://instagram.com/abhijitnathwani"><i class="svg-icon instagram"></i></a>
+<a href="https://www.linkedin.com/in/abhijitnathwani"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/abhijitnathwani"><i class="svg-icon twitter"></i></a>
+<a href="http://stackoverflow.com/users/6157456/abhijit-nathwani"><i class="svg-icon stackoverflow"></i></a>
+
+<a href="https://plus.google.com//u/0/+AbhijitNathwanii"><i class="svg-icon googleplus"></i></a>
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-111393187-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/blog/2017/12/20/First-C-Program-for-Image-Processing',
+		  'title': 'First C Program for Image Processing'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
