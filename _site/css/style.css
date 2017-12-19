@@ -1,0 +1,88 @@
+body, html {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+canvas {
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+
+.cartoon {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 10px;
+}
+
+.titles {
+  position: absolute;
+  top: 15%;
+  left: 0;
+  right: 0;
+}
+
+h1 {
+  font-size: 4.5em;
+  color: white;
+  font-family: 'Droid Sans', serif;
+  letter-spacing: 2px;
+  pointer-events: none;
+  font-weight: 500;
+  border: 0px;
+  margin: 0px;
+  text-align: center;
+  /*color: #7a9fd0;*/
+  color: #595959;
+}
+
+a {
+  text-decoration: none;
+  /*color: #ffff66;*/
+  color: #ef8319;
+}
+
+p {
+  font-family: 'Open Sans', serif;
+  color: white;
+  font-size: 1.3em;
+  text-align: center;
+  color: black;
+}
+
+.bullets {
+  color: black;
+}
+
+.social {
+  color: #ef8319;
+}
+.typewriter h1 {
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: .15em solid orange; /* The typwriter cursor */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: 2px; /* Adjust as needed */
+
+  animation: 
+    typing 3.5s steps(50, end),
+    blink-caret .75s step-end infinite;
+}
+
+/* The typing effect */
+@-webkit-keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+/* The typewriter cursor effect */
+@-webkit-keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: orange; }
+}
+.typewriter {
+    display: inline-flex;
+}
