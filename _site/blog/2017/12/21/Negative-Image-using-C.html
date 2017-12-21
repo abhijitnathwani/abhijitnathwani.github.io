@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Negative Image using C – Abhijit Nathwani – Technology Enthusiast</title>
+   
+
+        <meta charset="utf-8">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    
+    <meta name="description" content="Following the previous blog posts, I hope you now get a pretty clear idea about how to go ahead with image processing in C. In this blog post, we will discuss about creating a negative image of an image.
+
+">
+    <meta property="og:description" content="Following the previous blog posts, I hope you now get a pretty clear idea about how to go ahead with image processing in C. In this blog post, we will discuss about creating a negative image of an image.
+
+">
+    
+    <meta name="author" content="Abhijit Nathwani">
+
+    
+    <meta property="og:title" content="Negative Image using C">
+    <meta property="twitter:title" content="Negative Image using C">
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/img/myAvatar.png">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="alternate" type="application/rss+xml" title="Abhijit Nathwani - Technology Enthusiast" href="/feed.xml">
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://raw.githubusercontent.com/barryclark/jekyll-now/master/images/jekyll-logo.png"></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Abhijit Nathwani</a></h1>
+            <p class="site-description">Technology Enthusiast</p>
+          </div>
+
+          <nav>
+	    <a href="http://0.0.0.0:4000">Home</a>
+            <a href="/blog">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Negative Image using C</h1>
+
+  <div class="entry">
+    <p>Following the previous blog posts, I hope you now get a pretty clear idea about how to go ahead with image processing in C. In this blog post, we will discuss about creating a negative image of an image.</p>
+
+<p>For this blog post, we will again use our usual, <em>lena’s</em> face.</p>
+
+<p><img src="/images/lena512.bmp" alt="Lena Grayscale" title="Lena Grayscale"></p>
+
+<p>The complete code for this post can be found <a href="https://github.com/abhijitnathwani/image-processing/blob/master/negative_image.c">here.</a></p>
+
+<p>Starting with the usual procedure, image is nothing but a file for C. So go ahead and open the file.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">FILE</span><span class="o">*</span> <span class="n">fp</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="s">"/path/to/your/image.bmp"</span><span class="p">,</span> <span class="s">"rb"</span><span class="p">);</span>   <span class="c1">//read the file//
+</span></code></pre></div></div>
+
+<p>Following the Bitmap basics, strip out the image header.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fread</span><span class="p">(</span><span class="n">imageHeader</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">),</span> <span class="mi">54</span><span class="p">,</span> <span class="n">fp</span><span class="p">);</span> <span class="c1">// read the 54-byte from fp to imageHeader
+</span></code></pre></div></div>
+
+<p>Extract the required information from the image header,</p>
+<ul>
+  <li>Width</li>
+  <li>Height</li>
+  <li>bitDepth</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// extract image height and width from imageHeader      
+</span><span class="kt">int</span> <span class="n">width</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">imageHeader</span><span class="p">[</span><span class="mi">18</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">height</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">imageHeader</span><span class="p">[</span><span class="mi">22</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">bitDepth</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">imageHeader</span><span class="p">[</span><span class="mi">28</span><span class="p">];</span>
+</code></pre></div></div>
+<p>Next, read the colorTable if it exists.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="p">(</span><span class="n">bitDepth</span> <span class="o">&lt;=</span> <span class="mi">8</span><span class="p">)</span>	<span class="c1">// COLOR TABLE Present
+</span>	<span class="n">fread</span><span class="p">(</span><span class="n">colorTable</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">),</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">fp</span><span class="p">);</span> <span class="c1">// read the 1024-byte from fp to colorTable
+</span></code></pre></div></div>
+
+<p>Now, we allocate the block of memory as per the imageSize, to read the image information.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">imgDataSize</span> <span class="o">=</span> <span class="n">width</span> <span class="o">*</span> <span class="n">height</span><span class="p">;</span> <span class="c1">// calculate image size
+</span>
+<span class="n">imageData</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span> <span class="p">(</span><span class="n">imgDataSize</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">));</span> <span class="c1">// allocate the block of memory as big as the image size
+</span><span class="n">newimageData</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span> <span class="p">(</span><span class="n">imgDataSize</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>Now, to create the negative image, we need to have the complement of the color which it already has. The input image in our case is a gray-scale image, hence we know that the pixel value would be between <code class="highlighter-rouge">0-255</code>. To find the complement, we just subtract the read image value from 255.
+The basic equation would be something like,</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>new_pixel_data = 255 - old_pixel_data;
+</code></pre></div></div>
+
+<p>Now, it’s time to write the C code for the same. We know that the image is arranged in terms of rows and columns, hence running two <code class="highlighter-rouge">for loops</code> should solve our purpose.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">height</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">width</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+	<span class="p">{</span>                   
+		    <span class="n">newimageData</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">width</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">-</span> <span class="n">imageData</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">width</span> <span class="o">+</span> <span class="n">j</span><span class="p">];</span> 
+	<span class="p">}</span>   
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now that we have the new image data in our <code class="highlighter-rouge">newimageData</code> array, it’s time to construct the output image.</p>
+
+<p>Open the output file and write the image header and colortable to it.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">FILE</span> <span class="o">*</span><span class="n">fo</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="s">"/path/to/output/image.bmp"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">);</span>
+
+<span class="n">fwrite</span><span class="p">(</span><span class="n">imageHeader</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">),</span> <span class="mi">54</span><span class="p">,</span> <span class="n">fo</span><span class="p">);</span> <span class="c1">// write the header back.
+</span><span class="k">if</span><span class="p">(</span><span class="n">bitDepth</span> <span class="o">&lt;=</span> <span class="mi">8</span><span class="p">)</span>	<span class="c1">// COLOR TABLE Present
+</span>       	<span class="n">fwrite</span><span class="p">(</span><span class="n">colorTable</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">),</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">fo</span><span class="p">);</span> <span class="c1">// write the color table back
+</span></code></pre></div></div>
+
+<p>Now write the <code class="highlighter-rouge">newimageData</code> information to the output image</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fwrite</span><span class="p">(</span> <span class="n">newimageData</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">),</span> <span class="n">imgDataSize</span><span class="p">,</span> <span class="n">fo</span><span class="p">);</span> <span class="c1">// write the values of the negative image.
+</span></code></pre></div></div>
+
+<p>Now that everything is complete, time to close the files.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fclose</span><span class="p">(</span><span class="n">fo</span><span class="p">);</span>
+<span class="n">fclose</span><span class="p">(</span><span class="n">fp</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Compile the program, and run it. You should a negative image of lena formed in your specified directory.</p>
+
+<p><img src="/images/lena_negative.bmp" alt="Lena Negative"></p>
+
+<p>If are able to create the image as above, you have succesfully wrote your program for image negation! <img class="emoji" title=":beers:" alt=":beers:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f37b.png" height="20" width="20"></p>
+
+
+  </div>
+
+  <div class="date">
+    Written on December 21, 2017
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'abhijitnathwani-github-io';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+</div>
+
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+<a href="https://www.facebook.com/abhijitnathwani"><i class="svg-icon facebook"></i></a>
+
+<a href="https://github.com/abhijitnathwani"><i class="svg-icon github"></i></a>
+<a href="https://instagram.com/abhijitnathwani"><i class="svg-icon instagram"></i></a>
+<a href="https://www.linkedin.com/in/abhijitnathwani"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/abhijitnathwani"><i class="svg-icon twitter"></i></a>
+<a href="http://stackoverflow.com/users/6157456/abhijit-nathwani"><i class="svg-icon stackoverflow"></i></a>
+
+<a href="https://plus.google.com//u/0/+AbhijitNathwanii"><i class="svg-icon googleplus"></i></a>
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-111393187-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/blog/2017/12/21/Negative-Image-using-C',
+		  'title': 'Negative Image using C'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
