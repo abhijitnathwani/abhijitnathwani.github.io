@@ -96,6 +96,6 @@ Compile the program, and run it. You should a negative image of lena formed in y
 
 ![Lena Negative](/images/lena_negative.bmp)
 
-If are able to create the image as above, you have succesfully wrote your program for image negation! :beers:
+If are able to create the image as above, you have succesfully written your program for image negation! :beers:
 
 
