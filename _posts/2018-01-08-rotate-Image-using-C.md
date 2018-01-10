@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Bright Image using C
+title: Rotate Image using C
 ---
 
 Following the previous blog posts, I hope you now get a pretty clear idea about how to go ahead with image processing in C. In this blog post, we will discuss about creating a bright image of an image.
@@ -9,7 +9,7 @@ For this blog post, we will again use our usual, *lena's* face.
 
 ![Lena Grayscale](/images/lena512.bmp "Lena Grayscale")
 
-The complete code for this post can be found [here.](https://github.com/abhijitnathwani/image-processing/blob/master/image_bright.c)
+The complete code for this post can be found [here.](https://github.com/abhijitnathwani/image-processing/blob/master/image_rotate.c)
 
 Starting with the usual procedure, image is nothing but a file for C. So go ahead and open the file.
 
@@ -49,24 +49,25 @@ int imgDataSize = width * height; // calculate image size
 fread(buffer,sizeof(unsigned char),imgDataSize,fp);			//read image data
 ```
 
-Now, to create the bright image, we need to increase the pixel values. For that, we add `BRIGHTNESS_FACTOR`(in our case 25) to every pixel. We will add this value to each pixel and store it in temporary variable. As the input image in our case is a gray-scale image, hence we know that the pixel value would be between `0-255` and not more than 255. We will check that the pixel value does not exceed `255`.
+Now, to rotate the image 180 degree, we need to swap the pixel values. For that, we replace all the columns to rows and vice versa. So we will take out buffer and rotated values will be stored in out buffer. And thus it will rotate our image.
 
 The basic equation would be something like,
 
-    temp = buffer[i] + BRIGHTNESS_FACTOR ;
+    out_buffer[width-1][j] = buffer[i][j] ;
 
 
 Now, it's time to write the C code for the same. We know that the image is arranged in terms of rows and columns, hence running `for loops` should solve our purpose.
 
 ```c
-for(i = 0; i < size; i++)
+for(i = 0; i < width; i++)
 {
-	temp = buffer[i] + BRIGHTNESS_FACTOR;
-	buffer[i] = (temp > MAX_COLOR) ? MAX_COLOR : temp;  
+	for(j = 0; j < height; j++){
+		out_buffer[width-1][j] = buffer[i][j];
+	}
 }
 ``` 
 
-Now that we have the new image data in our `buffer` array, it's time to construct the output image.
+Now that we have the new image data in our `out_buffer` array, it's time to construct the output image.
 
 Open the output file and write the image header and colortable to it.
 
@@ -78,10 +79,10 @@ if(bitDepth <= 8)	// COLOR TABLE Present
        	fwrite(colorTable, sizeof(unsigned char), 1024, fo); // write the color table back
 ```
 
-Now write the `buffer` information to the output image
+Now write the `out_buffer` information to the output image
 
 ```c
-fwrite( buffer, sizeof(unsigned char), imgDataSize, fo); // write the values of the bright image.
+fwrite( out_buffer, sizeof(unsigned char), imgDataSize, fo); // write the values of the bright image.
 ```
 
 Now that everything is complete, time to close the files.
@@ -91,10 +92,10 @@ fclose(fo);
 fclose(fp);
 ```
 
-Compile the program, and run it. You should have a bright image of lena formed in your specified directory.
+Compile the program, and run it. You should have a rotated image of lena formed in your specified directory.
 
-![Lena Bright](/images/lena_bright.bmp)
+![Lena Rotate](/images/lena_rotate.bmp)
 
-If are able to create the image as above, you have succesfully written your program to make the image brighter ! :sunglasses:
+If you are able to create the image as above, you have succesfully written your program to rotate the image ! :smiley:
 
 Author:- **Priya Shah**
