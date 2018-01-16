@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-01-10T16:05:59+05:30</updated><id>http://localhost:4000/</id><title type="html">Abhijit Nathwani</title><subtitle>Technology Enthusiast</subtitle><entry><title type="html">Blur RGB Image using C</title><link href="http://localhost:4000/blog/2018/01/09/Blur-RGB-Image-using-C" rel="alternate" type="text/html" title="Blur RGB Image using C" /><published>2018-01-09T00:00:00+05:30</published><updated>2018-01-09T00:00:00+05:30</updated><id>http://localhost:4000/blog/2018/01/09/Blur-RGB-Image-using-C</id><content type="html" xml:base="http://localhost:4000/blog/2018/01/09/Blur-RGB-Image-using-C">&lt;p&gt;Following the previous blog posts, I hope you now get a pretty clear idea about how to go ahead with image processing in C. In this blog post, we will discuss about creating a blur image of a RGB image.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-01-16T11:21:07+05:30</updated><id>http://localhost:4000/</id><title type="html">Abhijit Nathwani</title><subtitle>Technology Enthusiast</subtitle><entry><title type="html">Blur RGB Image using C</title><link href="http://localhost:4000/blog/2018/01/09/Blur-RGB-Image-using-C" rel="alternate" type="text/html" title="Blur RGB Image using C" /><published>2018-01-09T00:00:00+05:30</published><updated>2018-01-09T00:00:00+05:30</updated><id>http://localhost:4000/blog/2018/01/09/Blur-RGB-Image-using-C</id><content type="html" xml:base="http://localhost:4000/blog/2018/01/09/Blur-RGB-Image-using-C">&lt;p&gt;Following the previous blog posts, I hope you now get a pretty clear idea about how to go ahead with image processing in C. In this blog post, we will discuss about creating a blur image of a RGB image.&lt;/p&gt;
 
 &lt;p&gt;For this blog post, we will again use our usual, &lt;em&gt;lena’s&lt;/em&gt; face.&lt;/p&gt;
 
@@ -415,7 +415,62 @@ b = (buffer[i][0]*0.272) + (buffer[i][1]*0.534) + (buffer[i][2]*0.131);
 
 &lt;p&gt;If you are able to create the image as above, you have succesfully written your program to convert the image into sepia! :grinning:&lt;/p&gt;
 
-&lt;p&gt;Author:- &lt;strong&gt;Priya Shah&lt;/strong&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">Following the previous blog posts, I hope you now get a pretty clear idea about how to go ahead with image processing in C and also how to read color image. In this blog post, we will discuss about creating a sepia image of a RGB image.</summary></entry><entry><title type="html">Blur Image using C</title><link href="http://localhost:4000/blog/2018/01/07/Blur-Image-using-C" rel="alternate" type="text/html" title="Blur Image using C" /><published>2018-01-07T00:00:00+05:30</published><updated>2018-01-07T00:00:00+05:30</updated><id>http://localhost:4000/blog/2018/01/07/Blur-Image-using-C</id><content type="html" xml:base="http://localhost:4000/blog/2018/01/07/Blur-Image-using-C">&lt;p&gt;Following the previous blog posts, I hope you now get a pretty clear idea about how to go ahead with image processing in C. In this blog post, we will discuss about creating a blur image of an image.&lt;/p&gt;
+&lt;p&gt;Author:- &lt;strong&gt;Priya Shah&lt;/strong&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">Following the previous blog posts, I hope you now get a pretty clear idea about how to go ahead with image processing in C and also how to read color image. In this blog post, we will discuss about creating a sepia image of a RGB image.</summary></entry><entry><title type="html">RGB Image Basics</title><link href="http://localhost:4000/blog/2018/01/08/RGB-Image-Basics" rel="alternate" type="text/html" title="RGB Image Basics" /><published>2018-01-08T00:00:00+05:30</published><updated>2018-01-08T00:00:00+05:30</updated><id>http://localhost:4000/blog/2018/01/08/RGB-Image-Basics</id><content type="html" xml:base="http://localhost:4000/blog/2018/01/08/RGB-Image-Basics">&lt;p&gt;Now that we are well-versed in grayscale bitmaps, let us take some time and understand the basics of RGB Bitmaps, and how to deal with it.&lt;/p&gt;
+
+&lt;p&gt;The RGB Image differentiates from the grayscale, by the color component. The grayscale does not hold any color information. The major differentiator in this image is the &lt;code class=&quot;highlighter-rouge&quot;&gt;Depth&lt;/code&gt; field in the image info header, &lt;em&gt;bit no. 28&lt;/em&gt;. This helps us identify the color components are present in the image or not.&lt;/p&gt;
+
+&lt;p&gt;For the grayscale images, this value would be less than or equal to 8, and for RGB, it will be greater than 8. There is one exception for 8 bit RGB as well, we will talk about it later.&lt;/p&gt;
+
+&lt;p&gt;In most cases, the RGB &lt;code class=&quot;highlighter-rouge&quot;&gt;depth&lt;/code&gt; would be 24-bit. This means that each pixel is of 24-bit and sub-dividing it, each color component is of 8-bit. So we have 8-bit of Red, 8-bit of Green and 8-bit of Blue data. In each component, 0 means no contribution of that color, and 255 means full contribution of that color. Since each component has 256 different states there are a total of 16777216 possible colours.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/colourdepthfig2.gif&quot; alt=&quot;RGB Pixel Info&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And to quote more about RGB Color spaces,&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;This idea of RGB colour space is a fundamental concept in computer graphics. In RGB space any colour is represented as a point inside a colour cube with orthogonal axes r,g,b.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The above statement is more clear with following picture in mind.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/colourdepthfig3.gif&quot; alt=&quot;RGB Color Space&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Note that grey values form a straight line from black to white along the diagonal of the cube, R = G = B.&lt;/p&gt;
+
+&lt;h5 id=&quot;8-bit-indexed-color&quot;&gt;8-bit indexed color&lt;/h5&gt;
+
+&lt;p&gt;There may even be 8-bit indexed RGB color image. It is more economical to store color bitmaps without using 3 bytes per pixel. As with 8-bit gray bitmaps, each pixel has one byte associated it with, however, this byte does not hold the color information but an index into a table of colors, called a palette or color table.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/colourdepthfig4.gif&quot; alt=&quot;Color Table&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;4-bit-indexed-color&quot;&gt;4-bit indexed color&lt;/h5&gt;
+
+&lt;p&gt;The concept for this is same as the 8-bit indexed color, except for the fact that it stores only 4-bits for the index. It because of this that only 16 colors are possible to create from the index.&lt;/p&gt;
+
+&lt;h5 id=&quot;32-bit-rgb&quot;&gt;32-bit RGB&lt;/h5&gt;
+
+&lt;p&gt;This is normally the same as 24 bit colour but with an extra 8 bit bitmap known as an alpha channel. This channel can be used to create masked areas or represent transparency.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/colourdepthfig6.gif&quot; alt=&quot;32-Bit RGB&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;16-bit-rgb&quot;&gt;16-bit RGB&lt;/h5&gt;
+
+&lt;p&gt;This is generally a direct system with 5 bits per colour component and a 1 bit alpha channel.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/colourdepthfig7.gif&quot; alt=&quot;16-Bit RGB&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Also, another thing to keep in mind is the storage of pixels in BMP file format.When the pixel information starts, the data is arranged something like this,&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
+B0 G0 R0 B1 G1 R1 B2 G2 R2 .... Bn Gn Rn
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The color component is stored in &lt;strong&gt;BGR format&lt;/strong&gt; and not in RGB. Hence the pixel 0’s Blue component comes first, followed by Green component and the Red component. Hence take special care while reading the image.&lt;/p&gt;
+
+&lt;p&gt;Another interesting point to note is the pixel arrangement in BMP format. BMP stores pixel data &lt;strong&gt;&lt;em&gt;upside down!&lt;/em&gt;&lt;/strong&gt; What this means is the first pixel which you encounter while reading the file, represents the last pixel (bottom right pixel) of the image that you visually see. Hence, if you need certain operations for region based implementation, doubly check the pixels you are addressing!&lt;/p&gt;
+
+&lt;p&gt;For more information on Bitmap File Format, check the Wikipedia page &lt;a href=&quot;https://en.wikipedia.org/wiki/BMP_file_format&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Author: &lt;strong&gt;Abhijit Nathwani&lt;/strong&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">Now that we are well-versed in grayscale bitmaps, let us take some time and understand the basics of RGB Bitmaps, and how to deal with it.</summary></entry><entry><title type="html">Blur Image using C</title><link href="http://localhost:4000/blog/2018/01/07/Blur-Image-using-C" rel="alternate" type="text/html" title="Blur Image using C" /><published>2018-01-07T00:00:00+05:30</published><updated>2018-01-07T00:00:00+05:30</updated><id>http://localhost:4000/blog/2018/01/07/Blur-Image-using-C</id><content type="html" xml:base="http://localhost:4000/blog/2018/01/07/Blur-Image-using-C">&lt;p&gt;Following the previous blog posts, I hope you now get a pretty clear idea about how to go ahead with image processing in C. In this blog post, we will discuss about creating a blur image of an image.&lt;/p&gt;
 
 &lt;p&gt;For this blog post, we will again use our usual, &lt;em&gt;lena’s&lt;/em&gt; face.&lt;/p&gt;
 
@@ -881,132 +936,4 @@ The basic equation would be something like,&lt;/p&gt;
 
 &lt;p&gt;Voila! Your first C program to copy an image is ready, &lt;strong&gt;without the use of any external library&lt;/strong&gt;. :beers:&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;TODO:&lt;/strong&gt; Now that you have successfully copied a grayscale image, try and copy a bitmap RGB image. (&lt;em&gt;Hint: You may want to check the bitDepth.&lt;/em&gt;) Let me know of any problems you face in the discussions below.&lt;/p&gt;</content><author><name></name></author><summary type="html">So, now that you know the basics of Bitmap image, we can start writing our first program. This will also serve as your boiler plate program for the following tutorials. Once you’re clear with this, things should start to make sense.</summary></entry><entry><title type="html">Introduction to Image Processing using C</title><link href="http://localhost:4000/blog/2017/12/19/Introduction-to-Image-Processing-using-C" rel="alternate" type="text/html" title="Introduction to Image Processing using C" /><published>2017-12-19T00:00:00+05:30</published><updated>2017-12-19T00:00:00+05:30</updated><id>http://localhost:4000/blog/2017/12/19/Introduction-to-Image-Processing-using-C</id><content type="html" xml:base="http://localhost:4000/blog/2017/12/19/Introduction-to-Image-Processing-using-C">&lt;p&gt;So most of you would be aware of various Image Processing techniques, on different platforms such as MATLAB, SciLAB, etc. Here, in this series of blog posts, we are only going to focus on image processing using C language. At times, the platforms named above are not available to us, and there may be a need to process images in most basic language, such as C.&lt;/p&gt;
-
-&lt;h5 id=&quot;why-image-processing-in-c-&quot;&gt;Why image processing in C ?&lt;/h5&gt;
-
-&lt;p&gt;Well, recently I was assigned a task to optimize an image processing code in C, and I had no clue how to go about and what are the image processing operations to be performed on C, &lt;em&gt;without the use of any external libraries&lt;/em&gt;. After a lot of digging on the internet, reading books and articles, I finally managed to do the task. Also, I realized that the resources are all available on the internet, however, &lt;em&gt;they lie scattered&lt;/em&gt;. Hence, these series of blog posts have been created so that one must get most of the required information at a go, and can start with  &lt;strong&gt;&lt;em&gt;Image Processing using C&lt;/em&gt;&lt;/strong&gt; .&lt;/p&gt;
-
-&lt;h5 id=&quot;image-formats&quot;&gt;Image formats&lt;/h5&gt;
-
-&lt;p&gt;There are various widely available image formats such as JPEG, PNG, TIFF, BMP, etc. For ease, we would be discussing all the programs and operations around the &lt;a href=&quot;https://en.wikipedia.org/wiki/BMP_file_format&quot;&gt;Bitmap file format&lt;/a&gt;. As the BMP is less complex to understand and decode than the compressed formats such as JPEG, we would be preferring this. As we do not intend to use any library as much as possible, we will have to deal with all the image headers and the smallest byte of information through our own code, BMP comes in handy to use.&lt;/p&gt;
-
-&lt;h5 id=&quot;the-bitmap-image&quot;&gt;The Bitmap Image&lt;/h5&gt;
-
-&lt;p&gt;This blog post only talks about the bare minimum information that you need in order to get started with Image Processing programs using C. So, the information provided would only as much as required to get to familiar with the environment. If you need more information, feel free to browse the internet or leave a comment below. We will discuss as required.&lt;/p&gt;
-
-&lt;p&gt;Basically, any image would be structured in the following way:&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;image header –&amp;gt;  color table (if any) –&amp;gt; image data&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Similarly, the BMP image is structured in the same way. It has a &lt;strong&gt;54 byte&lt;/strong&gt; &lt;em&gt;image header&lt;/em&gt;, &lt;strong&gt;1024 byte&lt;/strong&gt; &lt;em&gt;colorTable&lt;/em&gt; if present, and the rest is the image data.&lt;/p&gt;
-
-&lt;h4 id=&quot;the-image-header&quot;&gt;The Image Header&lt;/h4&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;offset&lt;/th&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;size&lt;/th&gt;
-      &lt;th&gt;description&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;0&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;2&lt;/td&gt;
-      &lt;td&gt;signature, must be 4D42 hex&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;2&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;4&lt;/td&gt;
-      &lt;td&gt;size of BMP file in bytes (unreliable)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;6&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;2&lt;/td&gt;
-      &lt;td&gt;reserved, must be zero&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;8&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;2&lt;/td&gt;
-      &lt;td&gt;reserved, must be zero&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;10&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;4&lt;/td&gt;
-      &lt;td&gt;offset to start of image data in bytes&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;14&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;4&lt;/td&gt;
-      &lt;td&gt;size of BITMAPINFOHEADER structure, must be 40&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;18&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;4&lt;/td&gt;
-      &lt;td&gt;image width in pixels&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;22&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;4&lt;/td&gt;
-      &lt;td&gt;image height in pixels&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;26&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;2&lt;/td&gt;
-      &lt;td&gt;number of planes in the image, must be 1&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;28&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;2&lt;/td&gt;
-      &lt;td&gt;number of bits per pixel (1, 4, ,8 or 24) (bitDepth)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;30&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;4&lt;/td&gt;
-      &lt;td&gt;compression type (0=none, 1=RLE-8, 2=RLE-4)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;34&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;4&lt;/td&gt;
-      &lt;td&gt;size of image data in bytes (including padding)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;38&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;4&lt;/td&gt;
-      &lt;td&gt;horizontal resolution in pixels per meter (unreliable)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;42&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;4&lt;/td&gt;
-      &lt;td&gt;vertical resolution in pixels per meter (unreliable)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;46&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;4&lt;/td&gt;
-      &lt;td&gt;number of colors in image, or zero&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;50&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;4&lt;/td&gt;
-      &lt;td&gt;number of important colors, or zero&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;The Bitmap Image Header (&lt;a href=&quot;http://www.fastgraph.com/help/bmp_header_format.html&quot;&gt;source&lt;/a&gt;)&lt;/p&gt;
-
-&lt;p&gt;From the above header, the information really important to us are &lt;em&gt;width, height and bitDepth&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;Next, if the &lt;strong&gt;bitDepth&lt;/strong&gt; is &amp;lt;= 8, the BMP image would contain the &lt;strong&gt;colorTable&lt;/strong&gt;. ColorTable is, as per &lt;a href=&quot;https://en.wikipedia.org/wiki/BMP_file_format#Color_table&quot;&gt;Wikipedia:&lt;/a&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;The color table is a block of bytes (a table) listing the colors used by the image. Each pixel in an indexed color image is described by a number of bits (1, 4, or 8) which is an index of a single color described by this table. The purpose of the color palette in indexed color bitmaps is to inform the application about the actual color that each of these index values corresponds to. The purpose of the color table in non-indexed (non-palettized) bitmaps is to list the colors used by the bitmap for the purposes of optimization on devices with limited color display capability and to facilitate future conversion to different pixel formats and paletization.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;In layman terms, the colorTable helps us indentify the shade of the color based on the value. It serves as a lookup table for colors for that particular image.&lt;/p&gt;
-
-&lt;p&gt;The rest of the bytes, once we’ve read &lt;strong&gt;54 bytes of image header&lt;/strong&gt; and &lt;strong&gt;1024 bytes of colorTable&lt;/strong&gt; is all image data, i.e. the &lt;strong&gt;pixel information.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;This is all you need to know for now, to start processing your BMP image in C. In the &lt;a href=&quot;/blog/2017/12/20/First-C-Program-for-Image-Processing&quot;&gt;next post&lt;/a&gt;, we will talk about writing your first C program that reads and makes a copy of the image.&lt;/p&gt;</content><author><name></name></author><summary type="html">So most of you would be aware of various Image Processing techniques, on different platforms such as MATLAB, SciLAB, etc. Here, in this series of blog posts, we are only going to focus on image processing using C language. At times, the platforms named above are not available to us, and there may be a need to process images in most basic language, such as C.</summary></entry></feed>
+&lt;p&gt;&lt;strong&gt;TODO:&lt;/strong&gt; Now that you have successfully copied a grayscale image, try and copy a bitmap RGB image. (&lt;em&gt;Hint: You may want to check the bitDepth.&lt;/em&gt;) Let me know of any problems you face in the discussions below.&lt;/p&gt;</content><author><name></name></author><summary type="html">So, now that you know the basics of Bitmap image, we can start writing our first program. This will also serve as your boiler plate program for the following tutorials. Once you’re clear with this, things should start to make sense.</summary></entry></feed>

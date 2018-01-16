@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RGB Image Basics – Abhijit Nathwani – Technology Enthusiast</title>
+   
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Now that we are well-versed in grayscale bitmaps, let us take some time and understand the basics of RGB Bitmaps, and how to deal with it.
+
+" />
+    <meta property="og:description" content="Now that we are well-versed in grayscale bitmaps, let us take some time and understand the basics of RGB Bitmaps, and how to deal with it.
+
+" />
+    
+    <meta name="author" content="Abhijit Nathwani" />
+
+    
+    <meta property="og:title" content="RGB Image Basics" />
+    <meta property="twitter:title" content="RGB Image Basics" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/img/myAvatar.png" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Abhijit Nathwani - Technology Enthusiast" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://raw.githubusercontent.com/barryclark/jekyll-now/master/images/jekyll-logo.png" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Abhijit Nathwani</a></h1>
+            <p class="site-description">Technology Enthusiast</p>
+          </div>
+
+          <nav>
+	    <a href="http://localhost:4000">Home</a>
+            <a href="/blog">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>RGB Image Basics</h1>
+
+  <div class="entry">
+    <p>Now that we are well-versed in grayscale bitmaps, let us take some time and understand the basics of RGB Bitmaps, and how to deal with it.</p>
+
+<p>The RGB Image differentiates from the grayscale, by the color component. The grayscale does not hold any color information. The major differentiator in this image is the <code class="highlighter-rouge">Depth</code> field in the image info header, <em>bit no. 28</em>. This helps us identify the color components are present in the image or not.</p>
+
+<p>For the grayscale images, this value would be less than or equal to 8, and for RGB, it will be greater than 8. There is one exception for 8 bit RGB as well, we will talk about it later.</p>
+
+<p>In most cases, the RGB <code class="highlighter-rouge">depth</code> would be 24-bit. This means that each pixel is of 24-bit and sub-dividing it, each color component is of 8-bit. So we have 8-bit of Red, 8-bit of Green and 8-bit of Blue data. In each component, 0 means no contribution of that color, and 255 means full contribution of that color. Since each component has 256 different states there are a total of 16777216 possible colours.</p>
+
+<p><img src="/images/colourdepthfig2.gif" alt="RGB Pixel Info" /></p>
+
+<p>And to quote more about RGB Color spaces,</p>
+<blockquote>
+  <p>This idea of RGB colour space is a fundamental concept in computer graphics. In RGB space any colour is represented as a point inside a colour cube with orthogonal axes r,g,b.</p>
+</blockquote>
+
+<p>The above statement is more clear with following picture in mind.</p>
+
+<p><img src="/images/colourdepthfig3.gif" alt="RGB Color Space" /></p>
+
+<p>Note that grey values form a straight line from black to white along the diagonal of the cube, R = G = B.</p>
+
+<h5 id="8-bit-indexed-color">8-bit indexed color</h5>
+
+<p>There may even be 8-bit indexed RGB color image. It is more economical to store color bitmaps without using 3 bytes per pixel. As with 8-bit gray bitmaps, each pixel has one byte associated it with, however, this byte does not hold the color information but an index into a table of colors, called a palette or color table.</p>
+
+<p><img src="/images/colourdepthfig4.gif" alt="Color Table" /></p>
+
+<h5 id="4-bit-indexed-color">4-bit indexed color</h5>
+
+<p>The concept for this is same as the 8-bit indexed color, except for the fact that it stores only 4-bits for the index. It because of this that only 16 colors are possible to create from the index.</p>
+
+<h5 id="32-bit-rgb">32-bit RGB</h5>
+
+<p>This is normally the same as 24 bit colour but with an extra 8 bit bitmap known as an alpha channel. This channel can be used to create masked areas or represent transparency.</p>
+
+<p><img src="/images/colourdepthfig6.gif" alt="32-Bit RGB" /></p>
+
+<h5 id="16-bit-rgb">16-bit RGB</h5>
+
+<p>This is generally a direct system with 5 bits per colour component and a 1 bit alpha channel.</p>
+
+<p><img src="/images/colourdepthfig7.gif" alt="16-Bit RGB" /></p>
+
+<p>Also, another thing to keep in mind is the storage of pixels in BMP file format.When the pixel information starts, the data is arranged something like this,</p>
+
+<p><code class="highlighter-rouge">
+B0 G0 R0 B1 G1 R1 B2 G2 R2 .... Bn Gn Rn
+</code></p>
+
+<p>The color component is stored in <strong>BGR format</strong> and not in RGB. Hence the pixel 0’s Blue component comes first, followed by Green component and the Red component. Hence take special care while reading the image.</p>
+
+<p>Another interesting point to note is the pixel arrangement in BMP format. BMP stores pixel data <strong><em>upside down!</em></strong> What this means is the first pixel which you encounter while reading the file, represents the last pixel (bottom right pixel) of the image that you visually see. Hence, if you need certain operations for region based implementation, doubly check the pixels you are addressing!</p>
+
+<p>For more information on Bitmap File Format, check the Wikipedia page <a href="https://en.wikipedia.org/wiki/BMP_file_format">here</a>.</p>
+
+<p>Author: <strong>Abhijit Nathwani</strong></p>
+
+
+  </div>
+
+  <div class="date">
+    Written on January  8, 2018
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'abhijitnathwani-github-io';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+<a href="https://www.facebook.com/abhijitnathwani"><i class="svg-icon facebook"></i></a>
+
+<a href="https://github.com/abhijitnathwani"><i class="svg-icon github"></i></a>
+<a href="https://instagram.com/abhijitnathwani"><i class="svg-icon instagram"></i></a>
+<a href="https://www.linkedin.com/in/abhijitnathwani"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/abhijitnathwani"><i class="svg-icon twitter"></i></a>
+<a href="http://stackoverflow.com/users/6157456/abhijit-nathwani"><i class="svg-icon stackoverflow"></i></a>
+
+<a href="https://plus.google.com//u/0/+AbhijitNathwanii"><i class="svg-icon googleplus"></i></a>
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-111393187-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/blog/2018/01/08/RGB-Image-Basics',
+		  'title': 'RGB Image Basics'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
